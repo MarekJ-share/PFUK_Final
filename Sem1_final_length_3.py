@@ -10,6 +10,7 @@ def strcheck(text):
         print("no text has been put in")
     except TypeError:
         print("this is not text")
+
 class wordlen:
     def __init__(self, text):
         self.text = strcheck(text)
@@ -26,6 +27,7 @@ class wordlen:
             elif len(i) == minl: # if of equal length, adds to the list
                 short.append(i)
         return ", ".join(short)
+
     def maxl(self):
         words = ''.join(char for char in self.text if char.isalnum() or char.isspace())  # cleans up string
         words = words.split()  # changes the string into an array of words
@@ -38,15 +40,16 @@ class wordlen:
             elif len(i) == maxl: # if of equal length, adds to the list
                 long.append(i)
         return ", ".join(long)
-class filewc:
+
+class filestats:
     def __init__(self, file):
         self.file = file
-    def filewc(self):
+    def textls(self):
         with open("%s" % self.file, 'r+') as file:  # saves in the lists of longest and shortest words
             cls = wordlen("".join(file.readlines()).rstrip())
             file.write("".join(["\n shortest: ", cls.minl(), "; longest: ", cls.maxl()]))
             file.close()
 
 
-F1 = filewc("text.txt")
-F1.filewc()
+F1 = filestats("text.txt")
+F1.textls()
