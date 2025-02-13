@@ -1,20 +1,22 @@
 from string import ascii_letters
-def chartopos(letter): #konvertuje písmeno na pozici v abecedě
+def chartopos(letter): # converts a letter to its alphabetical position
     return ord(letter) - 96
-def postochar(pos): #konvertuje pozici v abecedě na písmeno
+
+def postochar(pos): # converts alphabetical position to letter
     return chr(pos + 96)
+
 def strcheck(text):
     try:
-        if len(text) == 0:  # chybí text
+        if len(text) == 0:  # missing text
            raise ValueError
-        elif type(text) is not str:  # vstup není string
+        elif type(text) is not str:  # input is not string
             raise TypeError
-        else:  # jinak jde o validní vstup
+        else:
             return text
     except ValueError:
-        print("žádný text nezadán")
+        print("no text put in")
     except TypeError:
-        print("toto není text")
+        print("this is not text")
 
 class Data:
     def __init__(self, text, key, ed, file):
@@ -35,9 +37,11 @@ class Data:
             else:
                 raise ValueError
         except ValueError:
-            print("Špatně zadaná hodnota encode-decode")
+            print("Wrong encode-decode value")
+
         if len(self.key) < len(self.text):  # modifies the key, if it is shorter than the text
             self.key *= (len(self.text) // len(self.key) + 1)
+
         for pos, let in enumerate(self.text):  # goes through the letters of the text
             if let.isupper():  # marks uppercase letters for later
                 up = True
@@ -62,20 +66,21 @@ class Data:
     def fileout(self):
         with open("%s" % self.file, 'a', ) as f:
             if self.ed == "crypt" or self.ed == 1:
-                f.write("".join(["\nnešifrovaný text: ", self.text, " klíč: ", self.key]))
-                f.write("".join(["\nzašifrováno: ", self.vignere()]))
+                f.write("".join(["\nplaintext: ", self.text, " key: ", self.key]))
+                f.write("".join(["\nencrypted: ", self.vignere()]))
             elif self.ed == "decrypt" or self.ed == -1:
-                f.write("".join(["\nzašifrovaný text: ", self.text, " klíč: ", self.key]))
-                f.write("".join(["\ndešifrováno: ", self.vignere()]))
+                f.write("".join(["\nencrypted text: ", self.text, " key: ", self.key]))
+                f.write("".join(["\ndecrypted: ", self.vignere()]))
             elif self.ed != "decrypt" and self.ed != "crypt" and self.ed != 1 and self.ed != -1:
-                f.write("\nchybí určení jestli zašifrovat nebo dešifrovat (crypt/decrypt, 1/-1)")
+                f.write("\nmissing signifier whether to encode or decode (crypt/decrypt, 1/-1)")
             else:
-                f.write("\nšpatné zadání")
+                f.write("\nbad input")
             f.close()
 
 class filein:
     def __init__(self, file):
         self.file = file
+
     def fileloop(self):
         with open("%s" % self.file, 'w') as file: # cleans out output file before writing into it
             for line in file:
