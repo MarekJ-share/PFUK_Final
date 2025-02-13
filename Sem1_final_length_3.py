@@ -7,9 +7,9 @@ def strcheck(text):
         else:
             return text
     except ValueError:
-        print("žádný text nezadán")
+        print("no text has been put in")
     except TypeError:
-        print("toto není text")
+        print("this is not text")
 class wordlen:
     def __init__(self, text):
         self.text = strcheck(text)
@@ -42,9 +42,9 @@ class filewc:
     def __init__(self, file):
         self.file = file
     def filewc(self):
-        with open("%s" % self.file, 'rt+') as file:  # saves in the lists of longest and shortest words
+        with open("%s" % self.file, 'r+') as file:  # saves in the lists of longest and shortest words
             cls = wordlen("".join(file.readlines()).rstrip())
-            file.write("".join(["\n nejkratší: ", cls.minl(), "; nejdelší: ", cls.maxl()]))
+            file.write("".join(["\n shortest: ", cls.minl(), "; longest: ", cls.maxl()]))
             file.close()
 
 
